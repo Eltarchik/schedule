@@ -1,14 +1,17 @@
-import "@/application/globals.css"
+import "@/application/main.css"
 import React from "react"
+import { robotoFlex } from "@/shared/config/fonts"
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+interface Props {
+    children: React.ReactNode
+}
+
+export default function RootLayout(
+    { children }: Props
+) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="ru" className={robotoFlex.variable}>
+      <body className="flex p-4">
         {children}
       </body>
     </html>
