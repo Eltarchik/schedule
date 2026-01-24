@@ -58,3 +58,11 @@ body {
   color: var(--element);
   font-family: var(--font-roboto-flex), Helvetica, sans-serif;
 }
+
+input,
+textarea {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}

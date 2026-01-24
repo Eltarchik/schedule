@@ -11,7 +11,7 @@ export default function RootLayout(
 ) {
   return (
     <html lang="ru" className={robotoFlex.variable}>
-      <body className="flex p-4">
+      <body className="flex p-4 h-screen overflow-hidden">
         {children}
       </body>
     </html>
