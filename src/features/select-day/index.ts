@@ -1,3 +1,4 @@
-export { SelectDayRow } from "./ui/SelectDayRow"
+export { ScheduleDaySelector } from "./ui/ScheduleDaySelector"
 
-export { useSelectDayStore } from "./model/store"
+export { useScheduleDayStore } from "./model/scheduleDay.store"
+export { useInitScheduleDay } from "./model/useInitScheduleDay"

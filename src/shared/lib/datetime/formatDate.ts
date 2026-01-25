@@ -1,11 +1,11 @@
-export function formatDateToText(date: Date): string {
+export const formatDateToText = (date: Date) => {
     return date.toLocaleDateString("ru-RU", {
         day: "numeric",
         month: "long",
     })
 }
 
-export function formatDateToFreeText(date: Date): string {
+export const formatDateToFreeText = (date: Date) => {
     const today = new Date()
 
     const isToday =
@@ -16,4 +16,10 @@ export function formatDateToFreeText(date: Date): string {
     if (isToday) return "Сегодня"
 
     return formatDateToText(date)
+}
+
+export const formatDateToMonthName = (date: Date) => {
+    return date.toLocaleDateString("ru-RU", {
+        month: "long",
+    })
 }

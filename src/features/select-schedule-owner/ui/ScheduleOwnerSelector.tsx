@@ -2,8 +2,9 @@
 
 import { useRef, useState } from "react"
 import { Text } from "@/shared/ui/text"
-import { ScheduleOwner, ScheduleOwnerTypes } from "@/features/select-group-or-teacher/model/types"
-import { useSelectScheduleOwnerStore } from "@/features/select-group-or-teacher"
+import { ScheduleOwner, ScheduleOwnerTypes } from "@/features/select-schedule-owner/model/types"
+import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
+import { ScheduleOwnerLocalStorage } from "@/features/select-schedule-owner/lib/scheduleOwnerLacalStorage"
 
 const mockScheduleOwners: ScheduleOwner[] = [
     {
@@ -28,10 +29,12 @@ const mockScheduleOwners: ScheduleOwner[] = [
     },
 ]
 
-export const GroupOrTeacherSelector = () => {
-    const selectedScheduleOwner = useSelectScheduleOwnerStore(state => state.owner)
-    const setScheduleOwner = useSelectScheduleOwnerStore(state => state.setOwner)
+export const ScheduleOwnerSelector = () => {
+    const selectedScheduleOwner = useScheduleOwnerStore(state => state.owner)
+    const setScheduleOwner = useScheduleOwnerStore(state => state.setOwner)
+
     const [ displayedScheduleOwners, setDisplayedScheduleOwners ] = useState<ScheduleOwner[]>(mockScheduleOwners) // todo
+
     const [ searchText, setSearchText ] = useState("") // todo
     const [ focused, setFocused ] = useState(false)
     const ref = useRef<HTMLInputElement>(null)
@@ -39,11 +42,16 @@ export const GroupOrTeacherSelector = () => {
     const onScheduleOwnerClick = (owner: ScheduleOwner) => {
         ref.current?.blur()
         setScheduleOwner(owner)
+        ScheduleOwnerLocalStorage.save(owner)
         setSearchText(owner.name)
     }
 
-    const onInputBlur = () => {
+    const onInputFocus = () => {
         setSearchText(selectedScheduleOwner?.name ?? "")
+        setFocused(true)
+    }
+
+    const onInputBlur = () => {
         setFocused(false)
     }
 
@@ -54,18 +62,19 @@ export const GroupOrTeacherSelector = () => {
                    id="group-or-teacher"
                    name="group-or-teacher"
                    ref={ref}
-                   value={searchText}
+                   value={focused ? searchText : selectedScheduleOwner?.name ?? " "}
                    onChange={(e) => setSearchText(e.target.value)}
-                   onFocus={() => setFocused(true)}
+                   onFocus={onInputFocus}
                    onBlur={onInputBlur}
             />
         </label>
 
         { focused &&
-            <div className="absolute z-20 flex flex-col p-2 w-full top-full translate-y-2 rounded-xl bg-island"
+            <div className="absolute z-20 flex flex-col p-2 w-full top-full translate-y-2 rounded-xl
+                            shadow-space/40 shadow-xl bg-island"
                  onMouseDown={event => event.preventDefault()}
             >
-                {displayedScheduleOwners.map(owner => {
+                { displayedScheduleOwners.map(owner => {
                     const selected = owner.id === selectedScheduleOwner?.id
                     const bgColor = selected ? "bg-accent" : ""
 

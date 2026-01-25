@@ -1,18 +1,23 @@
+'use client'
+
 import { Lesson, LessonCard } from "@/entities/lesson"
-import { Text } from "@/shared/ui/text"
 import { useDayLessons } from "@/entities/schedule"
-import { SelectDayRow } from "@/features/select-day"
-import { GroupOrTeacherSelector } from "@/features/select-group-or-teacher"
+import { ScheduleDaySelector } from "@/features/select-day"
+import { ScheduleOwnerSelector, useInitScheduleOwner } from "@/features/select-schedule-owner"
+import { useInitScheduleDay } from "@/features/select-day"
 
 
 export const DailySchedule = () => {
     const lessons = useDayLessons()
     const currentLessonNumber = 3 // todo
 
-    return <div className="flex flex-col gap-4 w-full overflow-hidden">
-        <GroupOrTeacherSelector />
+    useInitScheduleOwner()
+    useInitScheduleDay()
 
-        <SelectDayRow />
+    return <div className="flex flex-col gap-4 w-full overflow-hidden">
+        <ScheduleOwnerSelector />
+
+        <ScheduleDaySelector />
 
         <div className="flex flex-col gap-4 h-full overflow-auto">
             { lessons.map((lesson: Lesson) => {
