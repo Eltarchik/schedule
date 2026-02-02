@@ -4,7 +4,6 @@ import { useRef, useState } from "react"
 import { Text } from "@/shared/ui/text"
 import { ScheduleOwner, ScheduleOwnerTypes } from "@/features/select-schedule-owner/model/types"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
-import { ScheduleOwnerLocalStorage } from "@/features/select-schedule-owner/lib/scheduleOwnerLacalStorage"
 
 const mockScheduleOwners: ScheduleOwner[] = [
     {
@@ -42,7 +41,6 @@ export const ScheduleOwnerSelector = () => {
     const onScheduleOwnerClick = (owner: ScheduleOwner) => {
         ref.current?.blur()
         setScheduleOwner(owner)
-        ScheduleOwnerLocalStorage.save(owner)
         setSearchText(owner.name)
     }
 

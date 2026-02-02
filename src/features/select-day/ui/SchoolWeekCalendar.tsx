@@ -1,11 +1,10 @@
-import { LeftArrowIcon, RightArrowIcon } from "@/shared/ui/icons"
 import { useScheduleDayStore } from "@/features/select-day"
-import React, { memo, RefObject, useMemo } from "react"
-import { Header, Text } from "@/shared/ui/text"
+import React, { memo, useMemo } from "react"
+import { Heading, Text } from "@/shared/ui/text"
 import { formatDateToMonthName } from "@/shared/lib/datetime/formatDate"
 import { useSchoolWeekDates } from "@/features/select-day/lib/useSchoolWeekCalendar"
-
-const SCHOOL_WEEKDAYS = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"]
+import { WEEKDAYS } from "@/entities/day-schedule/model/weekdays"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface Props {
     // todo firstDate: Date
@@ -44,7 +43,7 @@ export const ScheduleWeekCalendar = ({
 }: Props) => {
     const day = useScheduleDayStore(state => state.day)
     const setDay = useScheduleDayStore(state => state.setDay)
-    const [ selectedMonth, setSelectedMonth, displayedDays ] = useSchoolWeekDates()
+    const [ selectedMonth, setSelectedMonth, displayedDays ] = useSchoolWeekDates(day)
 
     const monthText = useMemo(() => {
         const text = formatDateToMonthName(selectedMonth)
@@ -62,31 +61,32 @@ export const ScheduleWeekCalendar = ({
     }
 
     const isSelected = (date: number) => {
+        if (!day) return false
         return day.getFullYear() === selectedMonth.getFullYear()
             && day.getMonth() === selectedMonth.getMonth()
             && date === day.getDate()
     }
 
-    return <div className={`absolute z-20 flex flex-col gap-2 p-2 h-fit w-74 rounded-xl bg-island 
+    return <div className={`absolute z-20 flex flex-col gap-2 p-2 h-fit w-84 rounded-xl bg-island
                             shadow-space/40 shadow-xl ${className}`}
     >
         <div className="flex justify-between items-center">
             <button className="flex size-6 items-center justify-center"
                     onClick={selectPrevMonth}
             >
-                <LeftArrowIcon/>
+                <ChevronLeft />
             </button>
-            <Header size="small">{ monthText }</Header>
+            <Heading size="small">{ monthText }</Heading>
             <button className="flex size-6 items-center justify-center"
                     onClick={selectNextMonth}
             >
-                <RightArrowIcon/>
+                <ChevronRight />
             </button>
         </div>
 
         <div className="flex flex-col gap-2">
-            <div className="grid grid-cols-6 grid-rows-7 gap-2">
-                { SCHOOL_WEEKDAYS.map(weekday =>
+            <div className="grid grid-cols-7 grid-rows-7 gap-2">
+                { WEEKDAYS.map(weekday =>
                     <div className="flex items-center justify-center size-10" key={weekday}>
                         <Text small bold className="text-element-sub">{ weekday }</Text>
                     </div>

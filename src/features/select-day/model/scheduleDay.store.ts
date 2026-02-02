@@ -1,4 +1,5 @@
 import { create } from "zustand/react"
+import { createJSONStorage, persist } from "zustand/middleware"
 
 interface ScheduleDayStore {
     day?: Date
@@ -7,28 +8,41 @@ interface ScheduleDayStore {
     prevDay: () => void
 }
 
-export const useScheduleDayStore = create<ScheduleDayStore>((set, get) => ({
-    day: undefined,
+export const useScheduleDayStore = create<ScheduleDayStore>()(
+    persist((set, get) => ({
+        day: undefined,
 
-    setDay: (day) => {
-        set({ day })
-    },
+        setDay: (day) => {
+            set({ day })
+        },
 
-    prevDay: () => {
-        const state = get().day
-        if(state === undefined) return
+        prevDay: () => {
+            const state = get().day
+            if(state === undefined) return
 
-        const day = new Date(state.getTime())
-        day.setDate(day.getDate() - 1)
-        set({ day: day })
-    },
+            const day = new Date(state.getTime())
+            day.setDate(day.getDate() - 1)
+            set({ day: day })
+        },
 
-    nextDay: () => {
-        const state = get().day
-        if(state === undefined) return
+        nextDay: () => {
+            const state = get().day
+            if(state === undefined) return
 
-        const day = new Date(state.getTime())
-        day.setDate(day.getDate() + 1)
-        set({ day: day })
-    },
-}))
+            const day = new Date(state.getTime())
+            day.setDate(day.getDate() + 1)
+            set({ day: day })
+        },
+    }), {
+        name: "schedule-day",
+        storage: createJSONStorage(() => sessionStorage),
+        merge: (persistedState, currentState) => {
+            return {
+                ...currentState,
+                day: (persistedState as { day: string })?.day
+                    ? new Date((persistedState as { day: string }).day)
+                    : new Date()
+            }
+        }
+    })
+)

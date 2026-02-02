@@ -14,7 +14,7 @@ export const Text = ({
     children,
 
 }: Props) => {
-    const size = small ? "text-[16px]" : "text-[20px]"
+    const size = small ? "text-[16px]" : "text-xl"
     const width = bold ? "font-bold" : ""
 
     return <p className={`${size} ${width} ${className}`}>

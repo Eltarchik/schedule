@@ -1,3 +1,3 @@
-import { Home } from "../pages/home"
+import { Home } from "../src/screens/home"
 
 export default Home

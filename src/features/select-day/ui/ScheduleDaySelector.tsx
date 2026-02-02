@@ -1,13 +1,11 @@
 'use client'
 
-import { LeftArrowIcon, RightArrowIcon } from "@/shared/ui/icons"
 import { Text } from "@/shared/ui/text"
 import { useScheduleDayStore } from "@/features/select-day"
 import { formatDateToFreeText } from "@/shared/lib/datetime/formatDate"
 import { ScheduleWeekCalendar } from "@/features/select-day/ui/SchoolWeekCalendar"
 import { useOverlayShowControl } from "@/shared/lib/hooks/useOverlayShowControl"
-import { useEffect } from "react"
-import { ScheduleDaySessionStorage } from "@/features/select-day/lib/scheduleDaySessionStorage"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 
 export const ScheduleDaySelector = () => {
@@ -19,16 +17,11 @@ export const ScheduleDaySelector = () => {
 
     const [ calendarOpened, setCalendarOpen, ref ] = useOverlayShowControl()
 
-    useEffect(() => {
-        if (!day) return
-        ScheduleDaySessionStorage.save(day)
-    }, [day])
-
     return <div className="flex items-center justify-between w-full h-6">
         <button className="flex size-6 items-center justify-center"
-                onClick={() => selectPrevDay()}
+                onClick={selectPrevDay}
         >
-            <LeftArrowIcon/>
+            <ChevronLeft />
         </button>
         <div className="relative flex justify-center" ref={ref}>
             <button className="flex px-4 items-center justify-center"
@@ -37,14 +30,14 @@ export const ScheduleDaySelector = () => {
                 <Text bold>{dateText}</Text>
             </button>
 
-            {calendarOpened &&
+            { calendarOpened &&
                 <ScheduleWeekCalendar className="inset-y-8"/>
             }
         </div>
         <button className="flex size-6 items-center justify-center"
-                onClick={() => selectNextDay()}
+                onClick={selectNextDay}
         >
-            <RightArrowIcon/>
+            <ChevronRight />
         </button>
     </div>
 }

@@ -1,6 +1,7 @@
 import "@/application/main.css"
 import React from "react"
 import { robotoFlex } from "@/shared/config/fonts"
+import { BreakpointProvider } from "@/shared/lib/adaptive/BreakpointProvider"
 
 interface Props {
     children: React.ReactNode
@@ -12,7 +13,9 @@ export default function RootLayout(
   return (
     <html lang="ru" className={robotoFlex.variable}>
       <body className="flex p-4 h-screen overflow-hidden">
-        {children}
+        <BreakpointProvider>
+            {children}
+        </BreakpointProvider>
       </body>
     </html>
   )

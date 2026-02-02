@@ -23,3 +23,11 @@ export const formatDateToMonthName = (date: Date) => {
         month: "long",
     })
 }
+
+export const formatDateToMDNumbers = (date: Date) => {
+    return `${date.getMonth() + 1}.${date.getDate()}`
+}
+
+export const formatDateIntervalText = (startDate: Date, endDate: Date) => {
+    return `${formatDateToText(startDate)} – ${formatDateToText(endDate)}`
+}
