@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'media.discordapp.net', // todo edit
-                pathname: '/attachments/**',
+                hostname: 'pwimages-a.akamaihd.net', // todo edit
+                pathname: '/arc/**',
             },
         ],
     },

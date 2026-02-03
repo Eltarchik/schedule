@@ -29,7 +29,7 @@ export const BurgerMenu = (
                 { burgerMenuItems.map(item => {
                     const bgColor = pathname === item.href ? "bg-accent" : ""
 
-                    return <Link className={`flex items-center gap-2 px-3 w-full h-12 rounded-lg ${bgColor}`}
+                    return <Link className={`flex items-center gap-2 px-4 w-full h-12 rounded-lg ${bgColor}`}
                           key={item.title}
                           href={item.href}
                     >

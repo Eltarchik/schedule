@@ -6,7 +6,7 @@ import { WeekSchedule } from "@/widgets/week-schedule/ui/WeekSchedule"
 import { BurgerMenu } from "@/widgets/burger-menu"
 import { WeekSelector } from "@/features/select-week/ui/WeekSelector"
 import { useState } from "react"
-import { PanelLeft, PanelLeftClose, PanelLeftDashed, PanelLeftOpen } from "lucide-react"
+import { PanelLeft, PanelLeftDashed } from "lucide-react"
 
 export function Home() {
     const [dayScheduleOverlayShowed, setDayScheduleOvnerlayShowed] = useState(false)
