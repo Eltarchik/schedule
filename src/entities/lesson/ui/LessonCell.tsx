@@ -29,11 +29,11 @@ export const LessonCell = ({
                  style={{
                      display: "-webkit-box",
                      WebkitBoxOrient: "vertical",
-                     WebkitLineClamp: 1 + (lesson.length - 1) * 4
+                     WebkitLineClamp: 1 + (lesson.slotLength - 1) * 4
                  }}
         >
-            {lesson.subject}
+            {lesson.subject.name}
         </Heading>
-        <Text className="text-xs/3 text-element-sub self-start">{ lesson.owner }</Text>
+        <Text className="text-xs/3 text-element-sub self-start">{ lesson.teacher.name.split(" ")[0] }</Text>
     </div>
 }

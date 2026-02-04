@@ -12,7 +12,7 @@ export const SlotCell = ({
     slot
 
 }: Props) => {
-    const timeInterval = formatTimeInterval(slot.startTime, slot.endTime)
+    const timeInterval = formatTimeInterval(slot.start, slot.end)
 
     return <div className="flex flex-col justify-center items-center gap-2 size-full rounded-2xl">
         <Heading size="small" className="text-element-sub">{ number }</Heading>

@@ -23,7 +23,7 @@ export const Calendar = () => {
             <div className="grid grid-cols-7 grid-rows-7 gap-2 w-full">
                 { [29, 30, 31, ...range(1, 31), 1].map((date, i) =>
                     <div key={i} className="flex flex-col items-center gap-1 pt-2 w-full h-13 rounded-lg">
-                        <Text>{ date }</Text>
+                        <Text small>{ date }</Text>
                     </div>
                 )}
             </div>

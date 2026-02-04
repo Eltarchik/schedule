@@ -1,6 +1,18 @@
-import { DaySchedule } from "@/entities/day-schedule"
+import { DayScheduleData } from "@/entities/day-schedule"
 
-export interface WeekSchedule {
-    weekType: "even" | "odd" | "other"
-    days: DaySchedule[]
+export enum WeekType {
+    EVEN = "even",
+    ODD = "odd",
+    OTHER = "other"
+}
+
+export interface WeekScheduleParams {
+    start: string
+    group: string
+    mode: WeekType
+}
+
+export interface WeekScheduleData {
+    weekType: WeekType
+    days: DayScheduleData[]
 }

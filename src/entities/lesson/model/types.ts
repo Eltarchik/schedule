@@ -1,9 +1,8 @@
 export interface Lesson {
-    id: string
     isAvailable: boolean
-    subject: string
-    owner: string
+    subject: { name: string }
+    teacher: { name: string }
     classroom: string
     slotNumber: number
-    length: number
+    slotLength: number
 }

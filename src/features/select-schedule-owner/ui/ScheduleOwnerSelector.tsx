@@ -2,41 +2,44 @@
 
 import { useRef, useState } from "react"
 import { Text } from "@/shared/ui/text"
-import { ScheduleOwner, ScheduleOwnerTypes } from "@/features/select-schedule-owner/model/types"
+import { ScheduleOwner } from "@/features/select-schedule-owner/model/types"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
+import { useFindOwners } from "@/features/select-schedule-owner/api/useFindOwners"
 
-const mockScheduleOwners: ScheduleOwner[] = [
-    {
-        id: "1",
-        name: "11а-ИТ",
-        type: ScheduleOwnerTypes.GROUP,
-    },
-    {
-        id: "2",
-        name: "11б-ИТ",
-        type: ScheduleOwnerTypes.GROUP,
-    },
-    {
-        id: "3",
-        name: "Богданов Михаил Рифкатович",
-        type: ScheduleOwnerTypes.TEACHER,
-    },
-    {
-        id: "4",
-        name: "Карпов Александр Викторович",
-        type: ScheduleOwnerTypes.TEACHER,
-    },
-]
+// const mockScheduleOwners: ScheduleOwner[] = [
+//     {
+//         id: "1",
+//         name: "11а-ИТ",
+//         type: ScheduleOwnerTypes.GROUP,
+//     },
+//     {
+//         id: "2",
+//         name: "11б-ИТ",
+//         type: ScheduleOwnerTypes.GROUP,
+//     },
+//     {
+//         id: "3",
+//         name: "Богданов Михаил Рифкатович",
+//         type: ScheduleOwnerTypes.TEACHER,
+//     },
+//     {
+//         id: "4",
+//         name: "Карпов Александр Викторович",
+//         type: ScheduleOwnerTypes.TEACHER,
+//     },
+// ]
 
 export const ScheduleOwnerSelector = () => {
     const selectedScheduleOwner = useScheduleOwnerStore(state => state.owner)
     const setScheduleOwner = useScheduleOwnerStore(state => state.setOwner)
 
-    const [ displayedScheduleOwners, setDisplayedScheduleOwners ] = useState<ScheduleOwner[]>(mockScheduleOwners) // todo
+    // const [ displayedScheduleOwners, setDisplayedScheduleOwners ] = useState<ScheduleOwner[]>(mockScheduleOwners) // todo
 
     const [ searchText, setSearchText ] = useState("") // todo
     const [ focused, setFocused ] = useState(false)
     const ref = useRef<HTMLInputElement>(null)
+
+    const { data: displayedScheduleOwners } = useFindOwners(focused, searchText)
 
     const onScheduleOwnerClick = (owner: ScheduleOwner) => {
         ref.current?.blur()
@@ -72,12 +75,14 @@ export const ScheduleOwnerSelector = () => {
                             shadow-space/40 shadow-xl bg-island"
                  onMouseDown={event => event.preventDefault()}
             >
-                { displayedScheduleOwners.map(owner => {
-                    const selected = owner.id === selectedScheduleOwner?.id
+                { displayedScheduleOwners?.map(owner => {
+                    const selected =
+                        owner.id === selectedScheduleOwner?.id
+                        && owner.type === selectedScheduleOwner.type
                     const bgColor = selected ? "bg-accent" : ""
 
                     return <button className={`flex justify-center items-center w-full h-8 rounded-lg ${bgColor}`}
-                                   key={owner.id}
+                                   key={`${owner.type}-${owner.id}`}
                                    onMouseDown={event => event.preventDefault()}
                                    onClick={() => onScheduleOwnerClick(owner)}
                     >

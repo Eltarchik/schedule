@@ -1,4 +1,4 @@
 export interface Slot {
-    startTime: number
-    endTime: number
+    start: number
+    end: number
 }

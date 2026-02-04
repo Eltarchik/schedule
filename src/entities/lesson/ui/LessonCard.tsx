@@ -29,17 +29,17 @@ export const LessonCard = ({
     const ghostPattern =
         `bg-[repeating-linear-gradient(-45deg,var(--space)_0px,var(--space)_8px,transparent_8px,transparent_16px)]`
 
-    return <button className={`relative flex flex-col justify-between p-4 rounded-2xl overflow-hidden min-h-25 
+    return <button className={`relative flex flex-col justify-between p-4 rounded-2xl  min-h-25 w-full overflow-hidden
                              ${cardColor} ${cardOpacity}`}
                    onClick={()=> onClick?.(lesson)}
     >
         <div className="flex z-10 justify-between gap-3 h-6">
-            <Heading className="truncate">{lesson.subject}</Heading>
+            <Heading className="truncate">{lesson.subject.name}</Heading>
             <Text small bold className="text-nowrap">{ timeInterval }</Text>
         </div>
         { lesson.isAvailable &&
             <div className="flex z-10 justify-between gap-3">
-                <Text small className="text-element-sub">{lesson.owner}</Text>
+                <Text small className="text-element-sub">{lesson.teacher.name}</Text>
                 <Text small className="text-element-sub">{lesson.classroom}</Text>
             </div>
         }

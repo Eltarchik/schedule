@@ -25,7 +25,7 @@ export const formatDateToMonthName = (date: Date) => {
 }
 
 export const formatDateToMDNumbers = (date: Date) => {
-    return `${date.getMonth() + 1}.${date.getDate()}`
+    return `${(date.getMonth() + 1).toString().padStart(2, "0")}.${(date.getDate()).toString().padStart(2, "0")}`
 }
 
 export const formatDateIntervalText = (startDate: Date, endDate: Date) => {

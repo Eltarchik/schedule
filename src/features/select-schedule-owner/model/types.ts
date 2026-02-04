@@ -1,5 +1,5 @@
 export interface ScheduleOwner {
-    id: string
+    id: number
     name: string
     type: ScheduleOwnerTypes
 }

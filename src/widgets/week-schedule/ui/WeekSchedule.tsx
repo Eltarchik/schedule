@@ -6,13 +6,21 @@ import { Fragment } from "react"
 import { useWeekSchedule } from "@/entities/week-schadule/api/useWeekSchedule"
 import { useScheduleWeekStore } from "@/features/select-week"
 import { formatDateToMDNumbers } from "@/shared/lib/datetime/formatDate"
-import { WeekSelector } from "@/features/select-week/ui/WeekSelector"
+import { WeekType } from "@/entities/week-schadule/model/types"
+import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
 
 export const WeekSchedule = () => {
     const weekStartDay = useScheduleWeekStore(state => state.weekStart)
+    const owner = useScheduleOwnerStore(state => state.owner)
 
-    const weekSchedule = useWeekSchedule()
-    const { weekType, days: weekdaysSchedule } = weekSchedule
+    const { data, isLoading } = useWeekSchedule(weekStartDay, owner?.name || "", WeekType.OTHER)
+
+    if (isLoading) return <div>
+        {/*  todo Skeleton  */}
+    </div>
+    if (!data) return <div></div>
+
+    const { weekType, days: weekdaysSchedule } = data
 
     const maxSlotsCount = Math.max(...weekdaysSchedule.map(daySchedule => daySchedule.slots.length))
     const weekday = (new Date()).getDay()
@@ -41,7 +49,7 @@ export const WeekSchedule = () => {
                 <Text bold className="text-element-sub">{weekTitle}</Text>
             </div>
             {todaySlots.map((slot, i) =>
-                <SlotCell key={slot.startTime} number={i + 1} slot={slot}/>
+                <SlotCell key={slot.start} number={i + 1} slot={slot}/>
             )}
 
             {schoolWeekdaysSchedule.map((daySchedule, i) => <Fragment key={i}>
@@ -51,9 +59,9 @@ export const WeekSchedule = () => {
                 </div>
 
                 {daySchedule.lessons.map(lesson =>
-                    <LessonCell key={lesson.id}
+                    <LessonCell key={lesson.slotNumber}
                                 lesson={lesson}
-                                style={{ gridRow: `span ${lesson.length} / span ${lesson.length}` }}
+                                style={{ gridRow: `span ${lesson.slotLength} / span ${lesson.slotLength}` }}
                     />
                 )}
             </Fragment>)}

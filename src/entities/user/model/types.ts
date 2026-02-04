@@ -1,5 +1,5 @@
 export interface UserMeta {
-    id: string
+    id: number
     name: string
     role: UserRole
     avatarURL: string
