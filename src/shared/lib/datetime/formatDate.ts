@@ -1,3 +1,5 @@
+import { compareDates } from "@/shared/lib/datetime/dateOperations"
+
 export const formatDateToText = (date: Date) => {
     return date.toLocaleDateString("ru-RU", {
         day: "numeric",
@@ -8,10 +10,7 @@ export const formatDateToText = (date: Date) => {
 export const formatDateToFreeText = (date: Date) => {
     const today = new Date()
 
-    const isToday =
-        date.getDate() === today.getDate() &&
-        date.getMonth() === today.getMonth() &&
-        date.getFullYear() === today.getFullYear()
+    const isToday = compareDates(today, date)
 
     if (isToday) return "Сегодня"
 

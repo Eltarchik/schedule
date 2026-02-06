@@ -1,9 +1,9 @@
 import { DefaultHeader } from "@/widgets/default-header"
 import { Heading, Text } from "@/shared/ui/text"
-import { range } from "@/shared/lib/utils/array"
+import { SmartCalendarView } from "@/widgets/calendar-month/ui/SmartCalendarView"
 
 export const Calendar = () => {
-    return <div className="flex flex-col items-center gap-4 w-full h-full overflow-hidden">
+    return <div className="flex flex-col items-center gap-4 w-full h-full">
         <DefaultHeader>Календарь</DefaultHeader>
 
         {/* todo вынести в компонент  */}
@@ -17,16 +17,6 @@ export const Calendar = () => {
                 <Text small bold className="text-element-sub">9:30 – 13:30</Text>
             </div>
         </div>
-
-        <div className="flex flex-col gap-2 w-full">
-            <Heading size="small">Январь 2026</Heading>
-            <div className="grid grid-cols-7 grid-rows-7 gap-2 w-full">
-                { [29, 30, 31, ...range(1, 31), 1].map((date, i) =>
-                    <div key={i} className="flex flex-col items-center gap-1 pt-2 w-full h-13 rounded-lg">
-                        <Text small>{ date }</Text>
-                    </div>
-                )}
-            </div>
-        </div>
+        <SmartCalendarView />
     </div>
 }

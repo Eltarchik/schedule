@@ -5,6 +5,7 @@ import { formatDateToMonthName } from "@/shared/lib/datetime/formatDate"
 import { useSchoolWeekDates } from "@/features/select-day/lib/useSchoolWeekCalendar"
 import { WEEKDAYS } from "@/entities/day-schedule/model/weekdays"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { compareDates } from "@/shared/lib/datetime/dateOperations"
 
 interface Props {
     // todo firstDate: Date
@@ -60,11 +61,11 @@ export const ScheduleWeekCalendar = ({
         setSelectedMonth(month)
     }
 
-    const isSelected = (date: number) => {
+    const selected = (dayNumber: number) => {
         if (!day) return false
-        return day.getFullYear() === selectedMonth.getFullYear()
-            && day.getMonth() === selectedMonth.getMonth()
-            && date === day.getDate()
+        const date = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), dayNumber)
+
+        return compareDates(day, date)
     }
 
     return <div className={`absolute z-20 flex flex-col gap-2 p-2 h-fit w-84 rounded-xl bg-island
@@ -97,7 +98,7 @@ export const ScheduleWeekCalendar = ({
                 )}
 
                 { displayedDays[1].map(date =>
-                    <DateButton selected={isSelected(date)} key={date}
+                    <DateButton selected={selected(date)} key={date}
                                 onClick={() => setDay(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), date))}
                     >
                         { date }
