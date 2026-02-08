@@ -1,22 +1,24 @@
+'use client'
+
 import { DefaultHeader } from "@/widgets/default-header"
-import { Heading, Text } from "@/shared/ui/text"
 import { SmartCalendarView } from "@/widgets/calendar-month/ui/SmartCalendarView"
+import { DayMetaCard } from "@/entities/calendar-day/ui/DayMetaCard"
+import { useCalendarDayStore } from "@/features/select-calendar-day/model/calendarDay.store"
+import { CalendarDayInfo } from "@/entities/calendar-day/model/types"
+
+const mockDayInfo: CalendarDayInfo = {
+    lessonsCount: 6,
+    lessonsStart: 480,
+    lessonsEnd: 830,
+}
 
 export const Calendar = () => {
+    const day = useCalendarDayStore(state => state.day)
+
     return <div className="flex flex-col items-center gap-4 w-full h-full">
         <DefaultHeader>Календарь</DefaultHeader>
 
-        {/* todo вынести в компонент  */}
-        <div className="flex flex-col justify-between p-4 min-h-45 w-full rounded-2xl bg-island">
-            <div className="flex flex-col gap-2">
-                <Heading>17 января</Heading>
-                <Heading>Суббота</Heading>
-            </div>
-            <div className="flex flex-col gap-3">
-                <Heading size="small" className="text-element-sub">6 уроков</Heading>
-                <Text small bold className="text-element-sub">9:30 – 13:30</Text>
-            </div>
-        </div>
+        <DayMetaCard date={day} dayInfo={mockDayInfo}/>
         <SmartCalendarView />
     </div>
 }

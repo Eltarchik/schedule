@@ -11,6 +11,16 @@ interface MonthBoundsData {
     currentMonthNormalizedWeekday: number
 }
 
+export const weekdaysFullNames = [
+    "понедельник",
+    "вторник",
+    "среда",
+    "четверг",
+    "пятница",
+    "суббота",
+    "воскресенье",
+]
+
 export const getMonthBoundsData = (date: Date): MonthBoundsData => {
     const currentMonthStart = cloneDate(date, undefined, undefined, 0)
     return {

@@ -1,4 +1,5 @@
-import { compareDates } from "@/shared/lib/datetime/dateOperations"
+import { compareDates, getNormalizedWeekday } from "@/shared/lib/datetime/dateOperations"
+import { weekdaysFullNames } from "@/shared/lib/datetime/dateModels"
 
 export const formatDateToText = (date: Date) => {
     return date.toLocaleDateString("ru-RU", {
@@ -29,4 +30,12 @@ export const formatDateToMDNumbers = (date: Date) => {
 
 export const formatDateIntervalText = (startDate: Date, endDate: Date) => {
     return `${formatDateToText(startDate)} – ${formatDateToText(endDate)}`
+}
+
+export const formatDateToWeekdayName = (date: Date, titleCase = false) => {
+    const weekday = getNormalizedWeekday(date)
+    const name = weekdaysFullNames[weekday]
+
+    if (!titleCase) return name
+    return name.slice(0, 1).toUpperCase() + name.slice(1)
 }
