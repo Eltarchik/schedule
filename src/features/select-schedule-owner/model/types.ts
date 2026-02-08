@@ -1,10 +1,10 @@
 export interface ScheduleOwner {
     id: number
     name: string
-    type: ScheduleOwnerTypes
+    type: ScheduleOwnerType
 }
 
-export enum ScheduleOwnerTypes {
+export enum ScheduleOwnerType {
     TEACHER = "teacher",
     GROUP = "group"
 }

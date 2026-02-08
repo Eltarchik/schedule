@@ -34,6 +34,6 @@ export const LessonCell = ({
         >
             {lesson.subject.name}
         </Heading>
-        <Text className="text-xs/3 text-element-sub self-start">{ lesson.teacher.name.split(" ")[0] }</Text>
+        <Text className="text-xs/3 text-element-sub self-start">{ lesson.teacher?.name.split(" ")[0] ?? lesson.groupName }</Text>
     </div>
 }

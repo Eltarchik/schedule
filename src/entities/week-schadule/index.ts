@@ -1,4 +1,4 @@
 export type { WeekScheduleData } from "./model/types"
 
-export { getWeekSchedule } from "./api/getWeekSchedule"
-export { useWeekSchedule } from "./api/useWeekSchedule"
+export { WeekScheduleAPI } from "./api/weekScheduleAPI"
+export { WeekScheduleQuery } from "./api/weekScheduleQuery"

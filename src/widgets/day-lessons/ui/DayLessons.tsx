@@ -1,19 +1,25 @@
 'use client'
 
 import { LessonCard } from "@/entities/lesson"
-import { useDaySchedule } from "@/entities/day-schedule"
+import { DayScheduleQuery } from "@/entities/day-schedule"
 import { useScheduleDayStore } from "@/features/select-day"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
 import { WeekType } from "@/entities/week-schadule/model/types"
 import { LessonCardSkeleton } from "@/entities/lesson/ui/LessonCardSkeleton"
 import { Heading } from "@/shared/ui/text"
+import { ScheduleOwnerType } from "@/features/select-schedule-owner/model/types"
 
 
 export const DayLessons = () => {
     const day = useScheduleDayStore(state => state.day)
     const owner = useScheduleOwnerStore(state => state.owner)
 
-    const { data: daySchedule, isPending, isPlaceholderData } = useDaySchedule(day, owner?.name || "", WeekType.OTHER) // todo
+    const isTeacher = owner?.type === ScheduleOwnerType.TEACHER
+
+    const { data: daySchedule, isPending, isPlaceholderData } = isTeacher
+        ? DayScheduleQuery.teacher(day, owner?.id ?? -1)
+        : DayScheduleQuery.group(day, owner?.name || "", WeekType.OTHER) // todo
+
     const currentLessonNumber = 4 // todo
 
     const noLessons = !daySchedule?.lessons.length
@@ -31,8 +37,8 @@ export const DayLessons = () => {
 
             return <LessonCard key={lesson.slotNumber}
                                lesson={lesson}
-                               startTime={daySchedule.slots[lesson.slotNumber - 1].start}
-                               endTime={daySchedule.slots[lesson.slotNumber + lesson.slotLength - 2].end}
+                               startTime={daySchedule.slots[lesson.slotNumber - 1]?.start || 0}
+                               endTime={daySchedule.slots[lesson.slotNumber + lesson.slotLength - 2]?.end || 0}
                                disabled={disabled}
                                filling={filling}
             />

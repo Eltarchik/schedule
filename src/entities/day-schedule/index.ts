@@ -1,3 +1,4 @@
 export type { DayScheduleData } from "./model/types"
 
-export { useDaySchedule } from "./api/useDaySchedule"
+export { DayScheduleAPI } from "./api/dayScheduleAPI"
+export { DayScheduleQuery } from "./api/dayScheduleQuery"

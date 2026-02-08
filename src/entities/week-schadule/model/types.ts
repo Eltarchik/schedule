@@ -6,10 +6,15 @@ export enum WeekType {
     OTHER = "other"
 }
 
-export interface WeekScheduleParams {
+export interface GroupWeekScheduleParams {
     start: string
     group: string
     mode: WeekType
+}
+
+export interface TeacherWeekScheduleParams {
+    date: string
+    id: number
 }
 
 export interface WeekScheduleData {

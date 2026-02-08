@@ -35,12 +35,12 @@ export const LessonCard = ({
     >
         { lesson.isAvailable && <>
             <div className="flex z-10 justify-between gap-3 h-6">
-                <Heading className="truncate">{lesson.subject.name}</Heading>
+                <Heading className="truncate">{ lesson.subject.name }</Heading>
                 <Text small bold className="text-nowrap">{ timeInterval }</Text>
             </div>
             <div className="flex z-10 justify-between gap-3">
-                <Text small className="text-element-sub">{lesson.teacher.name}</Text>
-                <Text small className="text-element-sub">{lesson.classroom}</Text>
+                <Text small className="text-element-sub">{ lesson.teacher?.name || lesson.groupName }</Text>
+                <Text small className="text-element-sub">{ lesson.classroom }</Text>
             </div>
         </> }
 

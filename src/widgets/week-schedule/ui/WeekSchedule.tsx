@@ -3,18 +3,21 @@ import { WEEKDAYS } from "@/entities/day-schedule/model/weekdays"
 import { LessonCell } from "@/entities/lesson/ui/LessonCell"
 import { SlotCell } from "@/entities/slot/ui/SlotCell"
 import { Fragment } from "react"
-import { useWeekSchedule } from "@/entities/week-schadule/api/useWeekSchedule"
+import { WeekScheduleQuery } from "@/entities/week-schadule/api/weekScheduleQuery"
 import { useScheduleWeekStore } from "@/features/select-week"
 import { formatDateToMDNumbers } from "@/shared/lib/datetime/formatDate"
 import { WeekType } from "@/entities/week-schadule/model/types"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
 import { cloneDate, compareDates, getNormalizedWeekday } from "@/shared/lib/datetime/dateOperations"
+import { ScheduleOwnerType } from "@/features/select-schedule-owner/model/types"
 
 export const WeekSchedule = () => {
     const weekStartDay = useScheduleWeekStore(state => state.weekStart)
     const owner = useScheduleOwnerStore(state => state.owner)
 
-    const { data, isPlaceholderData } = useWeekSchedule(weekStartDay, owner?.name || "", WeekType.OTHER)
+    const { data, isPlaceholderData } = owner?.type === ScheduleOwnerType.TEACHER
+        ? WeekScheduleQuery.teacher(weekStartDay, owner?.id ?? -1)
+        : WeekScheduleQuery.group(weekStartDay, owner?.name || "", WeekType.OTHER)
 
 
     if (!data) return <div/>
@@ -28,9 +31,11 @@ export const WeekSchedule = () => {
     const today = new Date()
     const weekday =  getNormalizedWeekday(today)
     const todaySlots =
-        weekdaysSchedule[Math.min(weekday, lastSchoolDay)]?.slots
+        weekdaysSchedule
+        .filter(day => day.slots.length)
+            [Math.min(weekday, lastSchoolDay)]?.slots
 
-    if (!todaySlots?.length) return <div className="flex justify-center items-center size-full">
+    if (!maxSlotsCount) return <div className="flex justify-center items-center size-full">
         <Heading size="medium">Уроков нет</Heading>
     </div>
 
