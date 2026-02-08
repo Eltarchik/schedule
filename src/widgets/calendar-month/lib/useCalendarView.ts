@@ -31,10 +31,6 @@ export const useCalendarView = (defaultMonthStart: Date): [
     const containerRef = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => {
-        const shiftBy = (offset: number) => {
-            setSlice(state => getSlice(state[pointerIndex + offset]))
-        }
-
         const container = containerRef.current
         const firstMonth = firstMonthRef.current
 
@@ -43,7 +39,12 @@ export const useCalendarView = (defaultMonthStart: Date): [
 
             const prevScrollTop = container.scrollTop
 
-            shiftBy(-1)
+            setSlice(state => {
+                const prevTopMonthDate = state[0]
+                const topMonth = cloneDate(prevTopMonthDate, undefined, prevTopMonthDate.getMonth() - 1)
+
+                return [topMonth, ...state.slice(0, sliceLength - 1)] as MonthsSlice
+            })
 
             requestAnimationFrame(() => {
                 const newFirstMonth = firstMonthRef.current
@@ -60,7 +61,12 @@ export const useCalendarView = (defaultMonthStart: Date): [
             const prevScrollTop = container.scrollTop
             const prevFirstMonthHeight = firstMonth.getBoundingClientRect().height
 
-            shiftBy(1)
+            setSlice(state => {
+                const prevBottomMonthDate = state[sliceLength - 1]
+                const bottomMonth = cloneDate(prevBottomMonthDate, undefined, prevBottomMonthDate.getMonth() + 1)
+
+                return [...state.slice(1, sliceLength), bottomMonth] as MonthsSlice
+            })
 
             requestAnimationFrame(() => {
                 container.scrollTop = prevScrollTop - prevFirstMonthHeight

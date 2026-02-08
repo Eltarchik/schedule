@@ -1,11 +1,11 @@
 import { useScheduleDayStore } from "@/features/select-day"
-import React, { memo, useMemo } from "react"
+import React, { memo, useCallback, useMemo } from "react"
 import { Heading, Text } from "@/shared/ui/text"
 import { formatDateToMonthName } from "@/shared/lib/datetime/formatDate"
 import { useSchoolWeekDates } from "@/features/select-day/lib/useSchoolWeekCalendar"
 import { WEEKDAYS } from "@/entities/day-schedule/model/weekdays"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { compareDates } from "@/shared/lib/datetime/dateOperations"
+import { cloneDate, compareDates } from "@/shared/lib/datetime/dateOperations"
 
 interface Props {
     // todo firstDate: Date
@@ -14,13 +14,15 @@ interface Props {
 }
 
 interface DateButtonProps {
+    date: number
     disabled?: boolean
     selected?: boolean
     children?: React.ReactNode
-    onClick?: () => void
+    onClick?: (date: number) => void
 }
 
 const DateButton = memo(({
+    date,
     disabled = false,
     selected = false,
     children,
@@ -31,7 +33,7 @@ const DateButton = memo(({
 
     return <button className={`flex items-center justify-center size-10 rounded-lg ${bgColor}`}
                    disabled={disabled}
-                   onClick={onClick}
+                   onClick={() => onClick(date)}
     >
         <Text small className={textColor}>{ children }</Text>
     </button>
@@ -68,6 +70,10 @@ export const ScheduleWeekCalendar = ({
         return compareDates(day, date)
     }
 
+    const onMonthClick = useCallback((date: number) => {
+        setDay(cloneDate(selectedMonth, undefined, undefined, date))
+    }, [selectedMonth, setDay])
+
     return <div className={`absolute z-20 flex flex-col gap-2 p-2 h-fit w-84 rounded-xl bg-island
                             shadow-space/40 shadow-xl ${className}`}
     >
@@ -94,19 +100,19 @@ export const ScheduleWeekCalendar = ({
                 )}
 
                 { displayedDays[0].map(date =>
-                    <DateButton disabled key={date}>{ date }</DateButton>
+                    <DateButton date={date} disabled key={date}>{ date }</DateButton>
                 )}
 
                 { displayedDays[1].map(date =>
-                    <DateButton selected={selected(date)} key={date}
-                                onClick={() => setDay(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), date))}
+                    <DateButton date={date} selected={selected(date)} key={date}
+                                onClick={onMonthClick}
                     >
                         { date }
                     </DateButton>
                 )}
 
                 { displayedDays[2].map(date =>
-                    <DateButton disabled key={date}>{ date }</DateButton>
+                    <DateButton date={date} disabled key={date}>{ date }</DateButton>
                 )}
             </div>
         </div>

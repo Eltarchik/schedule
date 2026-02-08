@@ -2,20 +2,22 @@ import { CalendarDayData } from "@/features/select-calendar-day/model/types"
 import { Text } from "@/shared/ui/text"
 import Image from "next/image"
 import { useCalendarDayStore } from "@/features/select-calendar-day/model/calendarDay.store"
+import { memo } from "react"
 
 
 interface Props {
     day: CalendarDayData
-    selected: boolean
+    selected?: boolean
 }
 
-export const CalendarDay = ({
-    day,
-    selected,
-
-}: Props) => {
+export const CalendarDay = memo((
+    { day, selected = false }: Props
+) => {
     const selectDay = useCalendarDayStore(state => state.setDay)
-    const bgColor = selected && !day.isDisabled ? "bg-accent" : ""
+
+    const bgColor = selected && !day.isDisabled
+        ? "bg-accent"
+        : ""
     let textColor = ""
 
     if (day.isDisabled) textColor = "text-element-disabled"
@@ -31,4 +33,5 @@ export const CalendarDay = ({
             <Image src={day.note.icon} alt="note-icon" width={16} height={16}/>
         }
     </button>
-}
+})
+CalendarDay.displayName = "CalendarDay"

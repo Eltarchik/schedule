@@ -4,7 +4,7 @@ import { UserFieldCard } from "@/entities/user/ui/UserFieldCard"
 import { DefaultHeader } from "@/widgets/default-header"
 
 const mockUserMeta : UserMeta = {
-    id: "1",
+    id: 1,
     name: "Носевич Илья",
     role: UserRole.STUDENT,
     avatarURL: "https://pwimages-a.akamaihd.net/arc/15/d8/15d8d65e395c5809a6cf4a26363ed1001557478083.jpg",

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 
 interface Props {
     small?: boolean
@@ -7,7 +7,7 @@ interface Props {
     children?: React.ReactNode
 }
 
-export const Text = ({
+export const Text = memo(({
     small = false,
     bold = false,
     className = "",
@@ -20,4 +20,5 @@ export const Text = ({
     return <p className={`${size} ${width} ${className}`}>
         {children}
     </p>
-}
+})
+Text.displayName = "Text"

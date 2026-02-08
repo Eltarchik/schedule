@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 
 interface Props {
     size?: "small" | "medium" | "large"
@@ -7,7 +7,7 @@ interface Props {
     children?: React.ReactNode
 }
 
-export const Heading = ({
+export const Heading = memo(({
     size = "medium",
     className = "",
     style = {},
@@ -33,4 +33,5 @@ export const Heading = ({
             {children}
         </h3>
     }
-}
+})
+Heading.displayName = "Heading"

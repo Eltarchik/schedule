@@ -11,6 +11,6 @@ export const useWeekSchedule = (
         queryKey: ["schedule", "week", group, start?.toISOString()],
         queryFn: () => getWeekSchedule({ start: start?.toISOString() || "", group, mode }),
         enabled: !!start,
-        placeholderData: keepPreviousData,
+        placeholderData: keepPreviousData
     })
 }

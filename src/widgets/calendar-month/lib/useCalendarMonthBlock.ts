@@ -2,8 +2,9 @@ import { getMonthBoundsData } from "@/shared/lib/datetime/dateModels"
 import { CalendarDayData } from "@/features/select-calendar-day/model/types"
 import { range } from "@/shared/lib/utils/array"
 import { cloneDate, getNormalizedWeekday } from "@/shared/lib/datetime/dateOperations"
+import { useMemo } from "react"
 
-export const useCalendarMonthBlock = (monthStart: Date) => {
+export const useCalendarMonthBlock = (monthStart: Date) => useMemo(() => {
     const daysData: CalendarDayData[] = []
     const { prevMonthLast, currentMonthLast, currentMonthNormalizedWeekday } = getMonthBoundsData(monthStart)
 
@@ -43,6 +44,5 @@ export const useCalendarMonthBlock = (monthStart: Date) => {
         )
     }
 
-
     return daysData
-}
+}, [monthStart])

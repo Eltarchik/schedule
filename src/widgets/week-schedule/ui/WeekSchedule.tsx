@@ -8,7 +8,7 @@ import { useScheduleWeekStore } from "@/features/select-week"
 import { formatDateToMDNumbers } from "@/shared/lib/datetime/formatDate"
 import { WeekType } from "@/entities/week-schadule/model/types"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
-import { cloneDate, compareDates } from "@/shared/lib/datetime/dateOperations"
+import { cloneDate, compareDates, getNormalizedWeekday } from "@/shared/lib/datetime/dateOperations"
 
 export const WeekSchedule = () => {
     const weekStartDay = useScheduleWeekStore(state => state.weekStart)
@@ -26,10 +26,9 @@ export const WeekSchedule = () => {
 
     const maxSlotsCount = Math.max(...weekdaysSchedule.map(daySchedule => daySchedule.slots.length))
     const today = new Date()
-    const weekday = today.getDay()
+    const weekday =  getNormalizedWeekday(today)
     const todaySlots =
-        (weekday === 0 ? weekdaysSchedule[0] : weekdaysSchedule[Math.min(weekday - 1, lastSchoolDay)])
-            ?.slots
+        weekdaysSchedule[Math.min(weekday, lastSchoolDay)]?.slots
 
     if (!todaySlots?.length) return <div className="flex justify-center items-center size-full">
         <Heading size="medium">Уроков нет</Heading>
@@ -75,7 +74,7 @@ export const WeekSchedule = () => {
                         <Text>{getWeekdayDateNumbers(i)}</Text>
                         {isToday &&
                             <div className="absolute -z-10 inset-0 pointer-events-none
-                                        bg-[radial-gradient(circle_84px_at_center,var(--accent-dark),transparent)]"
+                                            bg-[radial-gradient(circle_84px_at_center,var(--accent-dark),transparent)]"
                             />
                         }
                     </div>

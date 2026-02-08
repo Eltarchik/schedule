@@ -4,11 +4,14 @@ import { useCalendarView } from "@/widgets/calendar-month/lib/useCalendarView"
 import { CalendarMonthBlock } from "@/widgets/calendar-month/ui/CalendarMonthBlock"
 import { useCalendarDayStore } from "@/features/select-calendar-day/model/calendarDay.store"
 import { cloneDate } from "@/shared/lib/datetime/dateOperations"
-import { useLayoutEffect, useRef } from "react"
+import { useLayoutEffect, useMemo, useRef } from "react"
 
 export const SmartCalendarView = () => {
     const selectedDay = useCalendarDayStore(state => state.day)
-    const pointerMonth = cloneDate(selectedDay || new Date(), undefined, undefined, 1)
+    const pointerMonth = useMemo(
+        () => cloneDate(selectedDay || new Date(), undefined, undefined, 1),
+        [selectedDay]
+    )
 
     const [slice, firstRef, lastRef, containerRef, pointerIndex] = useCalendarView(pointerMonth)
 
@@ -29,13 +32,13 @@ export const SmartCalendarView = () => {
         const targetTop = target.getBoundingClientRect().top
 
         container.scrollTop += targetTop - containerTop
-    }, [])
+    }, [containerRef])
 
     return <div className="flex flex-col gap-4 w-full overflow-auto no-scrollbar"
                 ref={containerRef}
                 style={{ overflowAnchor: "none" }}
     >
-        {slice.map((monthStart, i) =>
+        { slice.map((monthStart, i) =>
             <CalendarMonthBlock key={monthStart.toISOString()}
                                 monthStart={monthStart}
                                 ref={getRef(i)}
