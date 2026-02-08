@@ -24,7 +24,7 @@ export function Home() {
                 </div>
             </div>
             { dayScheduleOverlayShowed &&
-                <div className="absolute hidden md:flex xl:hidden w-104 h-full w-100 top-18.25 overflow-hidden bg-space">
+                <div className="absolute z-20 hidden md:flex xl:hidden w-104 h-full w-100 top-18.25 overflow-hidden bg-space">
                     <div className="flex py-4 h-[calc(100%-73px)] w-full overflow-hidden">
                         <DaySchedule/>
                     </div>

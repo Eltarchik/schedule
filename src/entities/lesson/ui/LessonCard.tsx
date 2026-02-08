@@ -33,16 +33,16 @@ export const LessonCard = ({
                              ${cardColor} ${cardOpacity}`}
                    onClick={()=> onClick?.(lesson)}
     >
-        <div className="flex z-10 justify-between gap-3 h-6">
-            <Heading className="truncate">{lesson.subject.name}</Heading>
-            <Text small bold className="text-nowrap">{ timeInterval }</Text>
-        </div>
-        { lesson.isAvailable &&
+        { lesson.isAvailable && <>
+            <div className="flex z-10 justify-between gap-3 h-6">
+                <Heading className="truncate">{lesson.subject.name}</Heading>
+                <Text small bold className="text-nowrap">{ timeInterval }</Text>
+            </div>
             <div className="flex z-10 justify-between gap-3">
                 <Text small className="text-element-sub">{lesson.teacher.name}</Text>
                 <Text small className="text-element-sub">{lesson.classroom}</Text>
             </div>
-        }
+        </> }
 
         { filling !== undefined &&
             <div className="absolute flex h-full left-0 top-0 bg-gradient-to-r from-accent/0 to-accent"

@@ -7,7 +7,7 @@ export const Calendar = () => {
         <DefaultHeader>Календарь</DefaultHeader>
 
         {/* todo вынести в компонент  */}
-        <div className="flex flex-col justify-between p-4 h-45 w-full rounded-2xl bg-island">
+        <div className="flex flex-col justify-between p-4 min-h-45 w-full rounded-2xl bg-island">
             <div className="flex flex-col gap-2">
                 <Heading>17 января</Heading>
                 <Heading>Суббота</Heading>

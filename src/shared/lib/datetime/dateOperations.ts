@@ -4,16 +4,16 @@ export const compareDates = (first: Date, second: Date) => {
         && first.getDate() === second.getDate()
 }
 
-export const cloneDateWithOptions = (date: Date, year?: number, month?: number, day?: number) => {
+export const cloneDate = (date: Date, year?: number, month?: number, day?: number) => {
     return new Date(year ?? date.getFullYear(), month ?? date.getMonth(), day ?? date.getDate())
 }
 
 export const getPrevMonthLastDay = (date: Date) => {
-    return cloneDateWithOptions(date, undefined, undefined, 0)
+    return cloneDate(date, undefined, undefined, 0)
 }
 
 export const getCurrentMonthLastDay = (date: Date) => {
-    return cloneDateWithOptions(date, undefined, date.getMonth() + 1, 0)
+    return cloneDate(date, undefined, date.getMonth() + 1, 0)
 }
 
 export const getNormalizedWeekday = (date: Date) => {

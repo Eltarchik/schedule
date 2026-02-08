@@ -1,5 +1,5 @@
 import {
-    cloneDateWithOptions,
+    cloneDate,
     getCurrentMonthLastDay,
     getNormalizedWeekday,
     getPrevMonthLastDay
@@ -12,7 +12,7 @@ interface MonthBoundsData {
 }
 
 export const getMonthBoundsData = (date: Date): MonthBoundsData => {
-    const currentMonthStart = cloneDateWithOptions(date, undefined, undefined, 0)
+    const currentMonthStart = cloneDate(date, undefined, undefined, 0)
     return {
         prevMonthLast: getPrevMonthLastDay(date),
         currentMonthLast: getCurrentMonthLastDay(date),

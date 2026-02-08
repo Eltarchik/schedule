@@ -6,14 +6,16 @@ import { useCalendarDayStore } from "@/features/select-calendar-day/model/calend
 import { CalendarDay } from "@/features/select-calendar-day/ui/CalendarDay"
 import { compareDates } from "@/shared/lib/datetime/dateOperations"
 import { useCalendarMonthBlock } from "@/widgets/calendar-month/lib/useCalendarMonthBlock"
+import { RefObject } from "react"
 
 
 interface Props {
     monthStart: Date
+    ref?: RefObject<HTMLDivElement | null>
 }
 
 export const CalendarMonthBlock = (
-    { monthStart }: Props
+    { monthStart, ref }: Props
 ) => {
     const monthName = formatDateToMonthName(monthStart)
         + (monthStart.getMonth() === 0 ? ` ${monthStart.getFullYear()}` : "")
@@ -22,7 +24,7 @@ export const CalendarMonthBlock = (
 
     const datesData = useCalendarMonthBlock(monthStart)
 
-    return <div className="flex flex-col gap-2 w-full">
+    return <div className="flex flex-col gap-2 w-full" ref={ref}>
         <Heading size="small">{ monthName }</Heading>
         <div className="grid grid-cols-7 gap-2 w-full">
             { datesData.map(day => {

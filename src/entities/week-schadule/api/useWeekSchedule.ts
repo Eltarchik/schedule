@@ -1,6 +1,6 @@
 import { getWeekSchedule } from "@/entities/week-schadule/api/getWeekSchedule"
 import { WeekType } from "@/entities/week-schadule/model/types"
-import { useQuery } from "@tanstack/react-query"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
 export const useWeekSchedule = (
     start: Date | undefined,
@@ -10,6 +10,7 @@ export const useWeekSchedule = (
     return useQuery({
         queryKey: ["schedule", "week", group, start?.toISOString()],
         queryFn: () => getWeekSchedule({ start: start?.toISOString() || "", group, mode }),
-        enabled: !!start
+        enabled: !!start,
+        placeholderData: keepPreviousData,
     })
 }
