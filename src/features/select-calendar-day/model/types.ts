@@ -1,7 +1,4 @@
-export interface DayNote {
-    icon: string
-    content: string
-}
+import { DayNote } from "@/entities/calendar-day/model/types"
 
 export interface CalendarDayData {
     date: Date

@@ -1,11 +1,11 @@
 import { Heading, Text } from "@/shared/ui/text"
-import { WEEKDAYS } from "@/entities/day-schedule/model/weekdays"
+import { WEEKDAYS } from "@/shared/lib/datetime/formatDate"
 import { LessonCell } from "@/entities/lesson/ui/LessonCell"
 import { SlotCell } from "@/entities/slot/ui/SlotCell"
 import { Fragment } from "react"
 import { WeekScheduleQuery } from "@/entities/week-schadule/api/weekScheduleQuery"
 import { useScheduleWeekStore } from "@/features/select-week"
-import { formatDateToMDNumbers } from "@/shared/lib/datetime/formatDate"
+import { formatDateToDMNumbers } from "@/shared/lib/datetime/formatDate"
 import { WeekType } from "@/entities/week-schadule/model/types"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
 import { cloneDate, compareDates, getNormalizedWeekday } from "@/shared/lib/datetime/dateOperations"
@@ -54,7 +54,7 @@ export const WeekSchedule = () => {
         const weekdayDate = getWeekdayDate(offset)
         if (!weekdayDate) return
 
-        return formatDateToMDNumbers(weekdayDate)
+        return formatDateToDMNumbers(weekdayDate)
     }
 
     return <div className={`flex flex-col gap-2 size-full ${weekOpacity}`}>

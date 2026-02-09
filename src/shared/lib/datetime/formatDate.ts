@@ -1,6 +1,8 @@
 import { compareDates, getNormalizedWeekday } from "@/shared/lib/datetime/dateOperations"
 import { weekdaysFullNames } from "@/shared/lib/datetime/dateModels"
 
+export const WEEKDAYS = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"]
+
 export const formatDateToText = (date: Date) => {
     return date.toLocaleDateString("ru-RU", {
         day: "numeric",
@@ -24,8 +26,8 @@ export const formatDateToMonthName = (date: Date) => {
     })
 }
 
-export const formatDateToMDNumbers = (date: Date) => {
-    return `${(date.getMonth() + 1).toString().padStart(2, "0")}.${(date.getDate()).toString().padStart(2, "0")}`
+export const formatDateToDMNumbers = (date: Date) => {
+    return `${(date.getDate()).toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}`
 }
 
 export const formatDateIntervalText = (startDate: Date, endDate: Date) => {

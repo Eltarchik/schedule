@@ -3,7 +3,7 @@ import React, { memo, useCallback, useMemo } from "react"
 import { Heading, Text } from "@/shared/ui/text"
 import { formatDateToMonthName } from "@/shared/lib/datetime/formatDate"
 import { useSchoolWeekDates } from "@/features/select-day/lib/useSchoolWeekCalendar"
-import { WEEKDAYS } from "@/entities/day-schedule/model/weekdays"
+import { WEEKDAYS } from "@/shared/lib/datetime/formatDate"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cloneDate, compareDates } from "@/shared/lib/datetime/dateOperations"
 

@@ -3,7 +3,6 @@
 import "@/application/main.css"
 import React from "react"
 import { robotoFlex } from "@/shared/config/fonts"
-import { BreakpointProvider } from "@/shared/lib/adaptive/BreakpointProvider"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
@@ -19,12 +18,10 @@ export default function RootLayout(
   return (
     <html lang="ru" className={robotoFlex.variable}>
       <body className="flex p-4 h-screen overflow-hidden">
-      <QueryClientProvider client={queryClient}>
-          <BreakpointProvider>
+          <QueryClientProvider client={queryClient}>
               {children}
-          </BreakpointProvider>
-          <ReactQueryDevtools />
-      </QueryClientProvider>
+              <ReactQueryDevtools />
+          </QueryClientProvider>
       </body>
     </html>
   )

@@ -70,10 +70,16 @@ body {
   font-family: var(--font-roboto-flex), Helvetica, sans-serif;
 }
 
+button {
+  text-align: start;
+}
+
 input,
 textarea {
   margin: 0;
   padding: 0;
   border: none;
   outline: none;
+  resize: none;
+  box-sizing: border-box;
 }
