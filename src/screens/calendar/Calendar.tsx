@@ -22,14 +22,21 @@ const mockNote: DayNote = {
 export const Calendar = () => {
     const day = useCalendarDayStore(state => state.day)
 
-    const [cardCollapsed, setCardCollapsed] = useState(false)
+    const [bannerOpened, setBannerOpened] = useState(false)
 
     return <div className="flex flex-col items-center gap-4 w-full h-full">
         <DefaultHeader>Календарь</DefaultHeader>
 
         { !!day && <>
-            <DayMetaCard date={day} dayInfo={mockDayInfo} opened={cardCollapsed} onClick={() => setCardCollapsed(prev => !prev)} />
-            <DayNoteCard note={mockNote} />
+            <DayMetaCard date={day}
+                         dayInfo={mockDayInfo}
+                         opened={bannerOpened}
+                         onClick={() => setBannerOpened(true)}
+            />
+            <DayNoteCard note={mockNote}
+                         opened={!bannerOpened}
+                         onClick={() => setBannerOpened(false)}
+            />
         </>}
         <SmartCalendarView />
     </div>
