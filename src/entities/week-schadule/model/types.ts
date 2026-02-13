@@ -7,7 +7,7 @@ export enum WeekType {
 }
 
 export interface GroupWeekScheduleParams {
-    start: string
+    week: string
     group: string
     mode: WeekType
 }

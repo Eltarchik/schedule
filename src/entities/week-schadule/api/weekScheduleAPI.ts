@@ -1,12 +1,12 @@
 import { WeekScheduleData } from "@/entities/week-schadule"
-import { axiosPrivate } from "@/shared/api/api.config"
+import { axiosCommon } from "@/shared/api/api.config"
 import { GroupWeekScheduleParams, TeacherWeekScheduleParams } from "@/entities/week-schadule/model/types"
 
 export class WeekScheduleAPI {
     private static BASE_URL = "/schedule/week"
 
     static async group(params: GroupWeekScheduleParams) {
-        const response = await axiosPrivate.get<WeekScheduleData>(
+        const response = await axiosCommon.get<WeekScheduleData>(
             `${this.BASE_URL}/group`,
             { params }
         )
@@ -15,7 +15,7 @@ export class WeekScheduleAPI {
     }
 
     static async teacher(params: TeacherWeekScheduleParams) {
-        const response = await axiosPrivate.get<WeekScheduleData>(
+        const response = await axiosCommon.get<WeekScheduleData>(
             `${this.BASE_URL}/teacher`,
             { params }
         )

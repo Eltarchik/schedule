@@ -10,7 +10,7 @@ const useGroupDaySchedule = (
     return useQuery({
         queryKey: ["schedule", "day", "group", group, date?.toISOString()],
         queryFn: () => DayScheduleAPI.group({
-            date: date?.toISOString() || "",
+            day: date?.toISOString() || "",
             group,
             mode
         }),

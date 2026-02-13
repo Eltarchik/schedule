@@ -9,7 +9,7 @@ const useGroupWeekSchedule = (
 ) => {
     return useQuery({
         queryKey: ["schedule", "week", "group", group, start?.toISOString()],
-        queryFn: () => WeekScheduleAPI.group({ start: start?.toISOString() || "", group, mode }),
+        queryFn: () => WeekScheduleAPI.group({ week: start?.toISOString() || "", group, mode }),
         enabled: !!start,
         placeholderData: keepPreviousData
     })

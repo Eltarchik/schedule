@@ -22,7 +22,7 @@ const mockNote: DayNote = {
 export const Calendar = () => {
     const day = useCalendarDayStore(state => state.day)
 
-    const [bannerOpened, setBannerOpened] = useState(false)
+    const [bannerOpened, setBannerOpened] = useState(true)
 
     return <div className="flex flex-col items-center gap-4 w-full h-full">
         <DefaultHeader>Календарь</DefaultHeader>

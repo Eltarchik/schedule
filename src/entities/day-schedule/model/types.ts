@@ -3,7 +3,7 @@ import { Slot } from "@/entities/slot"
 import { WeekType } from "@/entities/week-schadule/model/types"
 
 export interface GroupDayScheduleParams {
-    date: string
+    day: string
     group: string // todo снести эту хуйню блять
     mode: WeekType // todo delete
 }

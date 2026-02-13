@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { Text } from "@/shared/ui/text"
 import { ScheduleOwner } from "@/features/select-schedule-owner/model/types"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
-import { useFindOwners } from "@/features/select-schedule-owner/api/useFindOwners"
+import { OwnersQuery } from "@/features/select-schedule-owner/api/useSearchOwners"
 
 // const mockScheduleOwners: ScheduleOwner[] = [
 //     {
@@ -39,7 +39,7 @@ export const ScheduleOwnerSelector = () => {
     const [ focused, setFocused ] = useState(false)
     const ref = useRef<HTMLInputElement>(null)
 
-    const { data: displayedScheduleOwners } = useFindOwners(focused, searchText)
+    const { data: displayedScheduleOwners } = OwnersQuery.searchOwners(focused, searchText)
 
     const onScheduleOwnerClick = (owner: ScheduleOwner) => {
         ref.current?.blur()

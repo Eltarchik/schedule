@@ -1,11 +1,11 @@
 import { DayScheduleData, GroupDayScheduleParams, TeacherDayScheduleParams } from "@/entities/day-schedule/model/types"
-import { axiosPrivate } from "@/shared/api/api.config"
+import { axiosCommon } from "@/shared/api/api.config"
 
 export class DayScheduleAPI {
     private static BASE_URL = "/schedule/day"
 
     static async group(params: GroupDayScheduleParams): Promise<DayScheduleData> {
-        const response = await axiosPrivate.get<DayScheduleData>(
+        const response = await axiosCommon.get<DayScheduleData>(
             `${this.BASE_URL}/group`,
             { params }
         )
@@ -14,7 +14,7 @@ export class DayScheduleAPI {
     }
 
     static async teacher(params: TeacherDayScheduleParams): Promise<DayScheduleData> {
-        const response = await axiosPrivate.get<DayScheduleData>(
+        const response = await axiosCommon.get<DayScheduleData>(
             `${this.BASE_URL}/teacher`,
             { params }
         )
