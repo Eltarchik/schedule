@@ -25,7 +25,7 @@ export class AuthAPI {
         return response.data
     }
 
-    static async register(data: AuthForm) {
+    static register = async (data: AuthForm) => {
         const response = await axiosCommon.post<AuthResponse>(
             this.BASE_URL + "/register",
             data
@@ -37,7 +37,7 @@ export class AuthAPI {
         return response.data
     }
 
-    static async logout() {
+    static logout = async () => {
         const response = await axiosCommon.post(
             this.BASE_URL + "/logout"
         )
@@ -47,7 +47,7 @@ export class AuthAPI {
         return response.data
     }
 
-    static async refresh() {
+    static refresh = async () => {
         const response = await axiosCommon.post<AuthResponse>(
             this.BASE_URL + "/refresh"
         )

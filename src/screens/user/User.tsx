@@ -1,7 +1,16 @@
+'use client'
+
 import { UserMeta, UserMetaCard } from "@/entities/user"
 import { UserRole } from "@/entities/user/model/types"
 import { UserFieldCard } from "@/entities/user/ui/UserFieldCard"
 import { DefaultHeader } from "@/widgets/default-header"
+import { Text } from "@/shared/ui/text"
+import { Button } from "@/shared/ui/buttons"
+import { LogOut, Settings } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { AuthAPI } from "@/shared/api/authAPI"
+import { Routes } from "@/shared/config/routes"
 
 const mockUserMeta : UserMeta = {
     id: 1,
@@ -31,17 +40,35 @@ const mockUserInfo: MockUserField[] = [
 ]
 
 export const User = () => {
-    return (
-        <div className="flex flex-col items-center gap-4 w-full h-full overflow-hidden">
-            <DefaultHeader>Профиль</DefaultHeader>
-            <div className="flex flex-col gap-4 w-full lg:w-220 h-full">
-                <UserMetaCard meta={mockUserMeta} />
-                <div className="flex flex-col gap-2">
-                    { mockUserInfo.map(info =>
-                        <UserFieldCard key={info.name} name={info.name} value={info.value} />
-                    )}
-                </div>
+    const router = useRouter()
+    const logoutMutation = useMutation({
+        mutationFn: AuthAPI.logout,
+        onSuccess: () => {
+            router.push(Routes.LOGIN)
+        }
+    })
+
+    return <div className="flex flex-col items-center gap-4 w-full h-full overflow-hidden">
+        <DefaultHeader>Профиль</DefaultHeader>
+        <div className="flex flex-col gap-4 w-full lg:w-220 h-full">
+            <UserMetaCard meta={mockUserMeta} />
+            <div className="flex flex-col gap-2">
+                { mockUserInfo.map(info =>
+                    <UserFieldCard key={info.name} name={info.name} value={info.value} />
+                )}
+            </div>
+            <div className="flex gap-4 mt-auto">
+                <Button className="w-full">
+                    <Settings />
+                    <Text bold>Настройки</Text>
+                </Button>
+                <Button className="w-full hover:bg-error"
+                        onClick={() => logoutMutation.mutate()}
+                >
+                    <LogOut />
+                    <Text bold>Выйти</Text>
+                </Button>
             </div>
         </div>
-    )
+    </div>
 }
