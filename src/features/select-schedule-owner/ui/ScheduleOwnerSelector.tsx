@@ -11,11 +11,11 @@ export const ScheduleOwnerSelector = () => {
     const selectedScheduleOwner = useScheduleOwnerStore(state => state.owner)
     const setScheduleOwner = useScheduleOwnerStore(state => state.setOwner)
 
-    const [ inputText, setInputText ] = useState("") // todo add default value from user info
+    const [ inputText, setInputText ] = useState<string | undefined>(undefined) // todo add default value from user info
     const [ focused, setFocused ] = useState(false)
     const ref = useRef<HTMLInputElement>(null)
 
-    const searchText = useDebounce(inputText)
+    const searchText = useDebounce(inputText ?? "")
 
     const { data: displayedScheduleOwners } = OwnersQuery.searchOwners(focused, searchText)
 
@@ -26,7 +26,7 @@ export const ScheduleOwnerSelector = () => {
     }
 
     useEffect(() => {
-        if (inputText) return
+        if (inputText !== undefined) return
 
         const loadText = () => setInputText(selectedScheduleOwner?.name ?? "")
         loadText()
