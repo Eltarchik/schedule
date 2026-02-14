@@ -1,54 +1,32 @@
 'use client'
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Text } from "@/shared/ui/text"
 import { ScheduleOwner } from "@/features/select-schedule-owner/model/types"
 import { useScheduleOwnerStore } from "@/features/select-schedule-owner"
 import { OwnersQuery } from "@/features/select-schedule-owner/api/useSearchOwners"
-
-// const mockScheduleOwners: ScheduleOwner[] = [
-//     {
-//         id: "1",
-//         name: "11а-ИТ",
-//         type: ScheduleOwnerTypes.GROUP,
-//     },
-//     {
-//         id: "2",
-//         name: "11б-ИТ",
-//         type: ScheduleOwnerTypes.GROUP,
-//     },
-//     {
-//         id: "3",
-//         name: "Богданов Михаил Рифкатович",
-//         type: ScheduleOwnerTypes.TEACHER,
-//     },
-//     {
-//         id: "4",
-//         name: "Карпов Александр Викторович",
-//         type: ScheduleOwnerTypes.TEACHER,
-//     },
-// ]
+import { useDebounce } from "@/shared/lib/hooks/useDebounds"
 
 export const ScheduleOwnerSelector = () => {
     const selectedScheduleOwner = useScheduleOwnerStore(state => state.owner)
     const setScheduleOwner = useScheduleOwnerStore(state => state.setOwner)
 
-    // const [ displayedScheduleOwners, setDisplayedScheduleOwners ] = useState<ScheduleOwner[]>(mockScheduleOwners) // todo
-
-    const [ searchText, setSearchText ] = useState("") // todo
+    const [ inputText, setInputText ] = useState("") // todo add default value from user info
     const [ focused, setFocused ] = useState(false)
     const ref = useRef<HTMLInputElement>(null)
+
+    const searchText = useDebounce(inputText)
 
     const { data: displayedScheduleOwners } = OwnersQuery.searchOwners(focused, searchText)
 
     const onScheduleOwnerClick = (owner: ScheduleOwner) => {
         ref.current?.blur()
         setScheduleOwner(owner)
-        setSearchText(owner.name)
+        setInputText(owner.name)
     }
 
     const onInputFocus = () => {
-        setSearchText(selectedScheduleOwner?.name ?? "")
+        setInputText(selectedScheduleOwner?.name ?? "")
         setFocused(true)
     }
 
@@ -63,8 +41,8 @@ export const ScheduleOwnerSelector = () => {
                    id="group-or-teacher"
                    name="group-or-teacher"
                    ref={ref}
-                   value={focused ? searchText : selectedScheduleOwner?.name ?? " "}
-                   onChange={(e) => setSearchText(e.target.value)}
+                   value={focused ? inputText : selectedScheduleOwner?.name ?? " "}
+                   onChange={(e) => setInputText(e.target.value)}
                    onFocus={onInputFocus}
                    onBlur={onInputBlur}
             />
@@ -89,6 +67,10 @@ export const ScheduleOwnerSelector = () => {
                         <Text small>{owner.name}</Text>
                     </button>
                 })}
+
+                { !displayedScheduleOwners?.length &&
+                    <Text className="text-element-sub self-center">Ничего не найдено</Text>
+                }
             </div>
         }
     </div>
