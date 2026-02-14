@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { AuthAPI } from "@/shared/api/authAPI"
 import { Routes } from "@/shared/config/routes"
+import { Tokens } from "@/shared/api/authToken"
+import Cookies from "js-cookie"
 
 const mockUserMeta : UserMeta = {
     id: 1,
@@ -44,6 +46,7 @@ export const User = () => {
     const logoutMutation = useMutation({
         mutationFn: AuthAPI.logout,
         onSuccess: () => {
+            Cookies.remove(Tokens.ACCESS)
             router.push(Routes.LOGIN)
         }
     })
