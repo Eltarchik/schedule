@@ -13,7 +13,7 @@ export const Button = (
     { disabled, type, className, children, onClick, ...rest }: Props
 ) => {
     return <button className={`
-                        flex justify-center items-center gap-2 w-fit h-10 rounded-xl bg-island \
+                        flex justify-center items-center gap-2 px-4 w-fit h-10 rounded-xl bg-island \
                         transition-colors duration-200 ease-in enabled:cursor-pointer ${className}
                    `}
                    disabled={disabled}

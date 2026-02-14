@@ -25,6 +25,13 @@ export const ScheduleOwnerSelector = () => {
         setInputText(owner.name)
     }
 
+    useEffect(() => {
+        if (inputText) return
+
+        const loadText = () => setInputText(selectedScheduleOwner?.name ?? "")
+        loadText()
+    }, [inputText, selectedScheduleOwner])
+
     const onInputFocus = () => {
         setInputText(selectedScheduleOwner?.name ?? "")
         setFocused(true)

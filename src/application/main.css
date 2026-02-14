@@ -7,7 +7,9 @@
 
   --element: #FFFFFF;
   --element-sub: #FFFFFF66;
+  --element-sub-solid: #747474;
   --element-disabled: #FFFFFF33;
+  --element-disabled-solid: #454545;
 
   --accent: #623DD3;
   --accent-dark: #412AC766;
@@ -25,7 +27,9 @@
 
   --color-element: var(--element);
   --color-element-sub: var(--element-sub);
+  --color-element-sub-solid: var(--element-sub-solid);
   --color-element-disabled: var(--element-disabled);
+  --color-element-disabled: var(--element-disabled-solid);
 
   --color-accent: var(--accent);
   --color-accent-dark: var(--accent-dark);

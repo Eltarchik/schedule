@@ -3,7 +3,7 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Text } from "@/shared/ui/text"
 import { Input } from "@/shared/ui/fields/Input"
-import { Eye, EyeOff } from "lucide-react"
+import { AtSign, Eye, EyeOff, KeyRound, Mail } from "lucide-react"
 import { useState } from "react"
 import { AuthAPI } from "@/shared/api/authAPI"
 import { useMutation } from "@tanstack/react-query"
@@ -64,6 +64,7 @@ export const LoginForm = () => {
         <Input placeholder="Почта"
                className={`${emailError && "error-border"} transition-shadow duration-100 ease-in`}
                {...emailRegister}
+               icon={<AtSign color="var(--element-disabled-solid)" />}
                onBlur={event => {
                    emailRegister.onBlur(event)
                    setBadRequest(false)
@@ -72,17 +73,23 @@ export const LoginForm = () => {
         <Input placeholder="Пароль"
                {...passwordRegister}
                type={passwordShowed ? "text" : "password"}
+               icon={<KeyRound size={28} color="var(--element-disabled-solid)" />}
                onBlur={event => {
                    passwordRegister.onBlur(event)
                    setBadRequest(false)
                }}
         >
-            <button type="button"
-                    onClick={() => setPasswordShowed(prev => !prev)}
+            <button className="cursor-pointer"
+                    type="button"
+                    onClick={event => {
+                        event.preventDefault()
+                        setPasswordShowed(prev => !prev)
+                    }}
+                    onMouseDown={event => event.preventDefault()}
             >
                 { passwordShowed
-                    ? <Eye color="var(--element-sub)" />
-                    : <EyeOff color="var(--element-sub)" />
+                    ? <Eye color="var(--element-sub-solid)" />
+                    : <EyeOff color="var(--element-sub-solid)" />
                 }
             </button>
         </Input>

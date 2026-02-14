@@ -13,6 +13,9 @@ import { AuthAPI } from "@/shared/api/authAPI"
 import { Routes } from "@/shared/config/routes"
 import { Tokens } from "@/shared/api/authToken"
 import Cookies from "js-cookie"
+import { useOverlayShowControl } from "@/shared/lib/hooks/useOverlayShowControl"
+import { AvatarReactorOverlay } from "@/widgets/avatar-redactor"
+import { useState } from "react"
 
 const mockUserMeta : UserMeta = {
     id: 1,
@@ -50,8 +53,12 @@ export const User = () => {
             router.push(Routes.LOGIN)
         }
     })
+    const [ avatarRedactorShowed, setAvatarRedactorShowed ] = useState(false)
 
     return <div className="flex flex-col items-center gap-4 w-full h-full overflow-hidden">
+        <AvatarReactorOverlay showed={avatarRedactorShowed}
+                              onClose={() => setAvatarRedactorShowed(false)}
+        />
         <DefaultHeader>Профиль</DefaultHeader>
         <div className="flex flex-col gap-4 w-full lg:w-220 h-full">
             <UserMetaCard meta={mockUserMeta} />
@@ -61,7 +68,9 @@ export const User = () => {
                 )}
             </div>
             <div className="flex gap-4 mt-auto">
-                <Button className="w-full">
+                <Button className="w-full"
+                        onClick={() => setAvatarRedactorShowed(true)}
+                >
                     <Settings />
                     <Text bold>Настройки</Text>
                 </Button>
