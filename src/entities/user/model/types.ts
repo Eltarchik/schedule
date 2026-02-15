@@ -1,10 +1,12 @@
-export interface UserMeta {
-    id: number
-    name: string
-    role: UserRole
-    avatarURL: string
+export enum UserRole {
+    STUDENT = "STUDENT",
+    TEACHER = "TEACHER",
+    ADMIN = "ADMIN"
 }
 
-export enum UserRole {
-    STUDENT, TEACHER, ADMIN
+export interface UserProfile {
+    name: string
+    email: string
+    roles: UserRole[]
+    avatar?: string
 }

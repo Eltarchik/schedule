@@ -5,9 +5,6 @@ import { AuthAPI } from "@/shared/api/authAPI"
 
 const options: CreateAxiosDefaults = {
     baseURL: "http://localhost:4242/api",
-    headers: {
-        'Content-Type': 'application/json',
-    },
     withCredentials: true,
 }
 

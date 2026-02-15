@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'pwimages-a.akamaihd.net', // todo edit
-                pathname: '/arc/**',
+                hostname: 'schedule-test-bucket.storage.yandexcloud.net', // todo edit
+                pathname: '/avatars/**',
             },
         ],
     },
