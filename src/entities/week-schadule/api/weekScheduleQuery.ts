@@ -4,12 +4,12 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
 const useGroupWeekSchedule = (
     start: Date | undefined,
-    group: string,
+    groupId: number,
     mode: WeekType
 ) => {
     return useQuery({
-        queryKey: ["schedule", "week", "group", group, start?.toISOString()],
-        queryFn: () => WeekScheduleAPI.group({ week: start?.toISOString() || "", group, mode }),
+        queryKey: ["schedule", "week", "group", groupId, start?.toISOString()],
+        queryFn: () => WeekScheduleAPI.group({ week: start?.toISOString() || "", id: groupId, mode }),
         enabled: !!start,
         placeholderData: keepPreviousData
     })
@@ -22,7 +22,7 @@ const useTeacherWeekSchedule = (
     return useQuery({
         queryKey: ["schedule", "week", "teacher", teacherId, start?.toISOString()],
         queryFn: () => WeekScheduleAPI.teacher({
-            date: start?.toISOString() || "",
+            week: start?.toISOString() || "",
             id: teacherId,
         }),
         enabled: !!start,

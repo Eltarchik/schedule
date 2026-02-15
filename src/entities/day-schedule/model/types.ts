@@ -4,12 +4,12 @@ import { WeekType } from "@/entities/week-schadule/model/types"
 
 export interface GroupDayScheduleParams {
     day: string
-    group: string // todo снести эту хуйню блять
+    id: number
     mode: WeekType // todo delete
 }
 
 export interface TeacherDayScheduleParams {
-    date: string
+    day: string
     id: number
 }
 

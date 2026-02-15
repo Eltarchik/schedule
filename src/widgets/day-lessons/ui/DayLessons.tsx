@@ -18,7 +18,7 @@ export const DayLessons = () => {
 
     const { data: daySchedule, isPending, isPlaceholderData } = isTeacher
         ? DayScheduleQuery.teacher(day, owner?.id ?? -1)
-        : DayScheduleQuery.group(day, owner?.name || "", WeekType.OTHER) // todo
+        : DayScheduleQuery.group(day, owner?.id ?? -1, WeekType.OTHER) // todo
 
     const currentLessonNumber = 4 // todo
 

@@ -8,12 +8,12 @@ export enum WeekType {
 
 export interface GroupWeekScheduleParams {
     week: string
-    group: string
+    id: number
     mode: WeekType
 }
 
 export interface TeacherWeekScheduleParams {
-    date: string
+    week: string
     id: number
 }
 

@@ -4,14 +4,14 @@ import { WeekType } from "@/entities/week-schadule/model/types"
 
 const useGroupDaySchedule = (
     date: Date | undefined,
-    group: string,
+    groupId: number,
     mode: WeekType
 ) => {
     return useQuery({
-        queryKey: ["schedule", "day", "group", group, date?.toISOString()],
+        queryKey: ["schedule", "day", "group", groupId, date?.toISOString()],
         queryFn: () => DayScheduleAPI.group({
             day: date?.toISOString() || "",
-            group,
+            id: groupId,
             mode
         }),
         enabled: !!date,
@@ -26,7 +26,7 @@ const useTeacherDaySchedule = (
     return useQuery({
         queryKey: ["schedule", "day", "teacher", teacherId, date?.toISOString()],
         queryFn: () => DayScheduleAPI.teacher({
-            date: date?.toISOString() || "",
+            day: date?.toISOString() || "",
             id: teacherId
         }),
         enabled: !!date,

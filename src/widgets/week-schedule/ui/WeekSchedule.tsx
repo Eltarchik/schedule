@@ -17,23 +17,25 @@ export const WeekSchedule = () => {
 
     const { data, isPlaceholderData } = owner?.type === ScheduleOwnerType.TEACHER
         ? WeekScheduleQuery.teacher(weekStartDay, owner?.id ?? -1)
-        : WeekScheduleQuery.group(weekStartDay, owner?.name || "", WeekType.OTHER)
+        : WeekScheduleQuery.group(weekStartDay, owner?.id ?? -1, WeekType.OTHER)
 
 
     if (!data) return <div/>
 
     const { weekType, days: weekdaysSchedule } = data
 
-    const lastSchoolDay = Math.max(...weekdaysSchedule.map((daySchedule, i) => daySchedule.slots.length ? i : 0))
+    const availableDays = weekdaysSchedule.map((daySchedule, i) => daySchedule.slots.length ? i : 0)
+    const lastSchoolDay = Math.max(...availableDays)
     const schoolWeekdaysSchedule = weekdaysSchedule.slice(0, lastSchoolDay + 1)
 
     const maxSlotsCount = Math.max(...weekdaysSchedule.map(daySchedule => daySchedule.slots.length))
     const today = new Date()
-    const weekday =  getNormalizedWeekday(today)
+    const weekday = getNormalizedWeekday(today)
+    const slotsWeekday = availableDays.includes(weekday) ? weekday : availableDays[0] ?? -1
     const todaySlots =
         weekdaysSchedule
         .filter(day => day.slots.length)
-            [Math.min(weekday, lastSchoolDay)]?.slots
+            [Math.min(slotsWeekday, lastSchoolDay)]?.slots
 
     if (!maxSlotsCount) return <div className="flex justify-center items-center size-full">
         <Heading size="medium">Уроков нет</Heading>
@@ -64,11 +66,11 @@ export const WeekSchedule = () => {
             <div className="flex justify-center items-center size-full">
                 <Text bold className="text-element-sub">{weekTitle}</Text>
             </div>
-            {todaySlots.map((slot, i) =>
+            { todaySlots.map((slot, i) =>
                 <SlotCell key={slot.start} number={i + 1} slot={slot}/>
             )}
 
-            {schoolWeekdaysSchedule.map((daySchedule, i) => {
+            { schoolWeekdaysSchedule.map((daySchedule, i) => {
                 const date = getWeekdayDate(i)
                 const isToday = !!date && compareDates(date, today)
                 if (isToday) console.log(getWeekdayDateNumbers(i))
@@ -84,7 +86,7 @@ export const WeekSchedule = () => {
                         }
                     </div>
 
-                    {daySchedule.lessons.map(lesson =>
+                    { daySchedule.lessons.map(lesson =>
                         <LessonCell key={lesson.slotNumber}
                                     lesson={lesson}
                                     style={{ gridRow: `span ${lesson.slotLength} / span ${lesson.slotLength}` }}
