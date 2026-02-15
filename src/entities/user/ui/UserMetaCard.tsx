@@ -1,27 +1,35 @@
 import { UserProfile, userRoleToString } from "@/entities/user"
 import Image from "next/image"
 import { Heading, Text } from "@/shared/ui/text"
+import { useQuery } from "@tanstack/react-query"
+import { UserAPI } from "@/entities/user/api/userAPI"
 
 
 interface Props {
-    meta: UserProfile
+    profile: UserProfile
 }
 
-export const UserMetaCard = ({
-    meta
-}: Props) => {
-    const role = userRoleToString(meta.roles[0])
+export const UserMetaCard = () => {
+    const { data: profile, isPending } = useQuery({
+        queryKey: ["user", "profile"],
+        queryFn: () => UserAPI.profile()
+    })
+
+    if (isPending) return // todo add skeleton
+    if (!profile) return
+
+    const role = userRoleToString(profile.roles[0])
 
     const getEmptyAvatarText = () => {
-        const names = meta.name.split(" ")
+        const names = profile.name.split(" ")
         return names[0].slice(0, 1).toUpperCase() + names[1].slice(0, 1).toUpperCase()
     }
 
     return <div className="flex items-center gap-5">
-        { meta.avatar
+        { profile.avatar
             ? <Image className="size-20 rounded-full"
-                     src={meta.avatar}
-                     alt={meta.name}
+                     src={profile.avatar}
+                     alt={profile.name}
                      width={80}
                      height={80}
                      preload
@@ -34,7 +42,7 @@ export const UserMetaCard = ({
 
 
         <div className="flex flex-col gap-1">
-            <Heading size="small">{ meta.name }</Heading>
+            <Heading size="small">{ profile.name }</Heading>
             <Text bold className="text-element-sub ">{ role }</Text>
         </div>
     </div>

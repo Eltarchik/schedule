@@ -1,42 +1,34 @@
 'use client'
 
 import { UserMetaCard } from "@/entities/user"
-import { UserFieldCard } from "@/entities/user/ui/UserFieldCard"
 import { DefaultHeader } from "@/widgets/default-header"
 import { Text } from "@/shared/ui/text"
 import { Button } from "@/shared/ui/buttons"
 import { LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { AuthAPI } from "@/shared/api/authAPI"
 import { Routes } from "@/shared/config/routes"
-import { AccessToken, Tokens } from "@/shared/api/authToken"
+import { Tokens } from "@/shared/api/authToken"
 import Cookies from "js-cookie"
 import { AvatarCropper, AvatarSelector } from "@/features/set-avatar"
 import { useState } from "react"
 import { CropData } from "@/features/set-avatar/model/types"
 import { UserAPI } from "@/entities/user/api/userAPI"
-
-interface UserField {
-    name: string
-    value: string
-}
+import { UserInfoFields } from "@/widgets/user-info-fields/ui/UserInfoFields"
 
 export const User = () => {
+    const [ avatarRedactorShowed, setAvatarRedactorShowed ] = useState(false)
+    const [ avatar, setAvatar ] = useState<File | undefined>(undefined)
+
     const router = useRouter()
+
     const logoutMutation = useMutation({
         mutationFn: AuthAPI.logout,
         onSuccess: () => {
             Cookies.remove(Tokens.ACCESS)
             router.push(Routes.LOGIN)
         }
-    })
-    const [ avatarRedactorShowed, setAvatarRedactorShowed ] = useState(false)
-    const [ avatar, setAvatar ] = useState<File | undefined>(undefined)
-
-    const { data: profile, isPending, refetch } = useQuery({
-        queryKey: ["user", "profile"],
-        queryFn: () => UserAPI.profile()
     })
 
     const avatarMutation = useMutation({
@@ -45,15 +37,6 @@ export const User = () => {
             console.log("avatar loading error") // todo
         }
     })
-
-    if (isPending || !profile) return
-
-    const fields: UserField[] = [
-        {
-            name: "Эл. почта",
-            value: profile.email
-        }
-    ]
 
     const onAvatarSelected = (ava: File) => {
         setAvatar(ava)
@@ -83,12 +66,8 @@ export const User = () => {
         />
         <DefaultHeader>Профиль</DefaultHeader>
         <div className="flex flex-col gap-4 w-full lg:w-220 h-full">
-            <UserMetaCard meta={profile} />
-            <div className="flex flex-col gap-2">
-                { fields.map(info =>
-                    <UserFieldCard key={info.name} name={info.name} value={info.value} />
-                )}
-            </div>
+            <UserMetaCard />
+            <UserInfoFields />
             <div className="flex gap-4 mt-auto">
                 <AvatarSelector onAvatarSelected={onAvatarSelected} />
                 <Button className="w-full hover:bg-error"
