@@ -14,8 +14,9 @@ import { Routes } from "@/shared/config/routes"
 import { Tokens } from "@/shared/api/authToken"
 import Cookies from "js-cookie"
 import { useOverlayShowControl } from "@/shared/lib/hooks/useOverlayShowControl"
-import { AvatarReactorOverlay } from "@/widgets/avatar-redactor"
+import { AvatarCropper, AvatarSelector } from "../../features/set-avatar"
 import { useState } from "react"
+import { CropData } from "@/features/set-avatar/model/types"
 
 const mockUserMeta : UserMeta = {
     id: 1,
@@ -54,10 +55,33 @@ export const User = () => {
         }
     })
     const [ avatarRedactorShowed, setAvatarRedactorShowed ] = useState(false)
+    const [ avatar, setAvatar ] = useState<File | undefined>(undefined)
+
+    const onAvatarSelected = (ava: File) => {
+        setAvatar(ava)
+        setAvatarRedactorShowed(true)
+    }
+
+    const onCropperClose = () => {
+        setAvatarRedactorShowed(false)
+        setAvatar(undefined)
+    }
+
+    const onCroppingConfirm = (data: CropData, avatar: File) => {
+        onCropperClose()
+
+        const formData = new FormData()
+        formData.append("avatar", avatar)
+
+        console.log(data, avatar)
+        // todo add setAvatar request
+    }
 
     return <div className="flex flex-col items-center gap-4 w-full h-full overflow-hidden">
-        <AvatarReactorOverlay showed={avatarRedactorShowed}
-                              onClose={() => setAvatarRedactorShowed(false)}
+        <AvatarCropper avatar={avatar}
+                       showed={avatarRedactorShowed}
+                       onClose={onCropperClose}
+                       onConfirm={onCroppingConfirm}
         />
         <DefaultHeader>Профиль</DefaultHeader>
         <div className="flex flex-col gap-4 w-full lg:w-220 h-full">
@@ -68,12 +92,7 @@ export const User = () => {
                 )}
             </div>
             <div className="flex gap-4 mt-auto">
-                <Button className="w-full"
-                        onClick={() => setAvatarRedactorShowed(true)}
-                >
-                    <Settings />
-                    <Text bold>Настройки</Text>
-                </Button>
+                <AvatarSelector onAvatarSelected={onAvatarSelected} />
                 <Button className="w-full hover:bg-error"
                         onClick={() => logoutMutation.mutate()}
                 >
