@@ -1,8 +1,9 @@
-import { UserProfile, userRoleToString } from "@/entities/user"
+import { UserProfile, userRolesToString } from "@/entities/user"
 import Image from "next/image"
 import { Heading, Text } from "@/shared/ui/text"
 import { useQuery } from "@tanstack/react-query"
 import { UserAPI } from "@/entities/user/api/userAPI"
+import { UserMetaCardSkeleton } from "@/entities/user/ui/UserMetaCardSkeleton"
 
 
 interface Props {
@@ -10,15 +11,17 @@ interface Props {
 }
 
 export const UserMetaCard = () => {
-    const { data: profile, isPending } = useQuery({
+    const { data: profile, isPending, isError } = useQuery({
         queryKey: ["user", "profile"],
         queryFn: () => UserAPI.profile()
     })
 
-    if (isPending) return // todo add skeleton
-    if (!profile) return
+    if (isPending) return <UserMetaCardSkeleton /> // todo add skeleton
+    if (!profile || isError) return <div className="flex justify-center mt-10 w-full">
+        <Heading size="medium">Ошибка загрузки</Heading>
+    </div>
 
-    const role = userRoleToString(profile.roles[0])
+    const role = userRolesToString(profile.roles)
 
     const getEmptyAvatarText = () => {
         const names = profile.name.split(" ")
@@ -27,7 +30,7 @@ export const UserMetaCard = () => {
 
     return <div className="flex items-center gap-5">
         { profile.avatar
-            ? <Image className="size-20 rounded-full"
+            ? <Image className="size-20 rounded-full bg-island"
                      src={profile.avatar}
                      alt={profile.name}
                      width={80}
